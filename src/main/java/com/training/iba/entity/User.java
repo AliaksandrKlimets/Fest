@@ -43,10 +43,11 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, String password, Set<Role> roles, String name, String surname, String phone, Date birthDate) {
+    public User(String username, String password, Set<Role> roles, Set<Festival> festivals, String name, String surname, String phone, Date birthDate) {
         this.username = username;
         this.password = password;
         this.roles = roles;
+        this.festivals = festivals;
         this.name = name;
         this.surname = surname;
         this.phone = phone;

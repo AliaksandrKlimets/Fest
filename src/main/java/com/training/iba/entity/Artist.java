@@ -29,11 +29,12 @@ public class Artist {
     public Artist() {
     }
 
-    public Artist(String artistName, String artistInfo, String photo, String country) {
+    public Artist(String artistName, String artistInfo, String photo, String country, Set<Festival> festivals) {
         this.artistName = artistName;
         this.artistInfo = artistInfo;
         this.photo = photo;
         this.country = country;
+        this.festivals = festivals;
     }
 
     public Set<Festival> getFestivals() {
