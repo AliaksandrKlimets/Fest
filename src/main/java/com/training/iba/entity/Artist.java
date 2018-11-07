@@ -97,15 +97,5 @@ public class Artist {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return "Artist{" +
-                "id=" + id +
-                ", artistName='" + artistName + '\'' +
-                ", artistInfo='" + artistInfo + '\'' +
-                ", photo='" + photo + '\'' +
-                ", country='" + country + '\'' +
-                ", artists=" + festivals +
-                '}';
-    }
+
 }

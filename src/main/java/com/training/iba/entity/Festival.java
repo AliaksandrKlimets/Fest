@@ -148,19 +148,5 @@ public class Festival {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return "Festival{" +
-                "id=" + id +
-                ", isAvailable=" + isAvailable +
-                ", place='" + place + '\'' +
-                ", festInfo='" + festInfo + '\'' +
-                ", festDate=" + festDate +
-                ", cost=" + cost +
-                ", festPhoto='" + festPhoto + '\'' +
-                ", genres=" + genres +
-//                ", participants=" + participants +
-//                ", artists=" + artists +
-                '}';
-    }
+
 }
