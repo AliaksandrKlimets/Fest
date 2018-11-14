@@ -3,6 +3,9 @@ package com.training.iba.entity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
@@ -10,8 +13,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+
 @Entity
 @Table(name = "user")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
 public class User implements UserDetails {
 
     @Id
@@ -38,12 +43,14 @@ public class User implements UserDetails {
     private String name;
     private String surname;
     private String phone;
+    private String email;
     private Date birthDate;
+    private boolean isAnon = false;
 
     public User() {
     }
 
-    public User(String username, String password, Set<Role> roles, Set<Festival> festivals, String name, String surname, String phone, Date birthDate) {
+    public User(String username, String password, Set<Role> roles, Set<Festival> festivals, String name, String surname, String phone,String email, Date birthDate, boolean isAnon) {
         this.username = username;
         this.password = password;
         this.roles = roles;
@@ -52,6 +59,24 @@ public class User implements UserDetails {
         this.surname = surname;
         this.phone = phone;
         this.birthDate = birthDate;
+        this.email = email;
+        this.isAnon = isAnon;
+    }
+
+    public boolean isAnon() {
+        return isAnon;
+    }
+
+    public void setAnon(boolean anon) {
+        isAnon = anon;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Long getId() {
@@ -71,7 +96,7 @@ public class User implements UserDetails {
         this.username = username;
     }
 
-    @Override
+     @Override
     public String getPassword() {
         return password;
     }

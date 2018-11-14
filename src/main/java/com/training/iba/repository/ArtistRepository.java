@@ -4,4 +4,5 @@ import com.training.iba.entity.Artist;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ArtistRepository extends CrudRepository<Artist, Long> {
+    Artist findById(long id);
 }

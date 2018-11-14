@@ -1,12 +1,19 @@
 package com.training.iba.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
+
 @Entity
 @Table(name = "artist")
+@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="id")
 public class Artist {
 
     @Id
@@ -18,13 +25,26 @@ public class Artist {
     private String photo;
     private String country;
 
-    @ManyToMany
-    @JoinTable(
-            name = "fest_artists",
-            joinColumns = {@JoinColumn(name = "artist_id")},
-            inverseJoinColumns = {@JoinColumn(name = "fest_id")}
-    )
-    private Set<Festival> festivals = new HashSet<>();
+//    @ManyToMany
+//    @JoinTable(
+//            name = "fest_artists",
+//            joinColumns = {@JoinColumn(name = "artist_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "fest_id")}
+//    )
+//    private Set<Festival> festivals = new HashSet<>();
+
+    @ElementCollection(targetClass = Genres.class, fetch = FetchType.LAZY)
+    @CollectionTable(name = "genre", joinColumns = @JoinColumn(name = "entity_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Genres> genres = new HashSet<>();
+
+    public Set<Genres> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(Set<Genres> genres) {
+        this.genres = genres;
+    }
 
     public Artist() {
     }
@@ -34,16 +54,16 @@ public class Artist {
         this.artistInfo = artistInfo;
         this.photo = photo;
         this.country = country;
-        this.festivals = festivals;
+       // this.festivals = festivals;
     }
 
-    public Set<Festival> getFestivals() {
-        return festivals;
-    }
-
-    public void setFestivals(Set<Festival> festivals) {
-        this.festivals = festivals;
-    }
+//    public Set<Festival> getFestivals() {
+//        return festivals;
+//    }
+//
+//    public void setFestivals(Set<Festival> festivals) {
+//        this.festivals = festivals;
+//    }
 
     public Long getId() {
         return id;

@@ -23,4 +23,21 @@ public class ArtistController {
     public Optional<Artist> getUser(@PathVariable Long id){
         return artistRepository.findById(id);
     }
+
+    @PostMapping("/add")
+    public void addArtist(@RequestBody Artist artist){
+        artistRepository.save(artist);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteArtist(@PathVariable("id") Artist artist){
+        artistRepository.delete(artist);
+    }
+
+    @PutMapping("/update/artist/{id}")
+    public void changeArtist(@RequestBody Artist artist, @PathVariable("id") long id){
+        Artist art = artistRepository.findById(id);
+        artist.setId(art.getId());
+        artistRepository.save(artist);
+    }
 }

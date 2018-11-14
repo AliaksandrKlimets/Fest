@@ -1,5 +1,5 @@
 package com.training.iba.entity;
 
 public enum Genres {
-    OPENAIR, FOODFESTIVAL, STENDUP
+    OPENAIR, FOODFESTIVAL, STANDUP, MOVIEFEST, ROCKFEST, ROCK, BLUES, JAZZ, DISCO, HIPHOP, FUNK, PUNK
 }
