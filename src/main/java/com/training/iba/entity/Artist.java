@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -14,7 +15,7 @@ import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
 @Entity
 @Table(name = "artist")
 @JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="id")
-public class Artist {
+public class Artist implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

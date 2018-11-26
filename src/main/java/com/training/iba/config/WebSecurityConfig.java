@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private PasswordEncoder encoder;
 
     @Bean
-    public PasswordEncoder getPasswordEncoder(){
+    public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder(8);
     }
 
@@ -33,22 +33,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                    .antMatchers( "/","/users/**", "/artists/**","/festivals/**", "/login").permitAll()
-                    .anyRequest().authenticated()
+                .antMatchers("/", "/users/**", "/artists/**", "/festivals/**", "/login", "/activate/**", "/comments/**").permitAll()
+                .anyRequest().authenticated()
+//                .and()
+//                    .formLogin()
+//                    .loginPage("/login")
+//                    .permitAll()
+//                .and()
+//                    .rememberMe()
+//                .and()
+//                    .logout()
+//                    .permitAll();
                 .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
-                .and()
-                    .rememberMe()
-                .and()
-                    .logout()
-                    .permitAll();
+                .httpBasic();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService)
-        .passwordEncoder(encoder);
+                .passwordEncoder(encoder);
     }
 }

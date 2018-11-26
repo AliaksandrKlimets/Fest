@@ -1,5 +1,6 @@
 package com.training.iba.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,7 +18,7 @@ import java.util.Set;
 @Entity
 @Table(name = "user")
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "id")
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,6 +27,8 @@ public class User implements UserDetails {
     private String username;
 
     private String password;
+
+    private String activationCode;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -38,6 +41,7 @@ public class User implements UserDetails {
             joinColumns = {@JoinColumn(name = "participant_id")},
             inverseJoinColumns = {@JoinColumn(name = "fest_id")}
     )
+    @JsonIgnore
     private Set<Festival> festivals = new HashSet<>();
 
     private String name;
@@ -46,11 +50,12 @@ public class User implements UserDetails {
     private String email;
     private Date birthDate;
     private boolean isAnon = false;
+    private boolean mailingAccess;
 
     public User() {
     }
 
-    public User(String username, String password, Set<Role> roles, Set<Festival> festivals, String name, String surname, String phone,String email, Date birthDate, boolean isAnon) {
+    public User(String username, String password, Set<Role> roles, Set<Festival> festivals, String name, String surname, String phone, String email, Date birthDate, boolean isAnon) {
         this.username = username;
         this.password = password;
         this.roles = roles;
@@ -87,7 +92,6 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    @Override
     public String getUsername() {
         return username;
     }
@@ -96,7 +100,6 @@ public class User implements UserDetails {
         this.username = username;
     }
 
-     @Override
     public String getPassword() {
         return password;
     }
@@ -153,6 +156,22 @@ public class User implements UserDetails {
         this.festivals = festivals;
     }
 
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
+
+    public boolean isMailingAccess() {
+        return mailingAccess;
+    }
+
+    public void setMailingAccess(boolean mailingAccess) {
+        this.mailingAccess = mailingAccess;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -166,29 +185,5 @@ public class User implements UserDetails {
         return Objects.hash(id);
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 
 }

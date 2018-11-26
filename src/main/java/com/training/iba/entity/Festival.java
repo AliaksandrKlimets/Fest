@@ -1,21 +1,14 @@
 package com.training.iba.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.hibernate.annotations.Cascade;
-import sun.plugin.dom.core.Text;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
-import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
+import java.util.*;
 
 @Table(name = "festival")
 @Entity
@@ -35,7 +28,10 @@ public class Festival {
     private String festPhoto;
     @Transient
     private long[] artistsIdList;
-
+    @Transient
+    private boolean attention;
+    @Transient
+    private boolean ended = false;
     public long[] getArtistsIdList() {
         return artistsIdList;
     }
@@ -63,8 +59,16 @@ public class Festival {
             joinColumns = {@JoinColumn(name = "fest_id")},
             inverseJoinColumns = {@JoinColumn(name = "artist_id")}
     )
-
+    @JsonFormat(shape = JsonFormat.Shape.ARRAY)
     private Set<Artist> artists = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "fest_comments",
+            joinColumns = {@JoinColumn(name = "fest_id")},
+            inverseJoinColumns = {@JoinColumn(name = "comment_id")}
+    )
+    private List<Comment> comments = new ArrayList<>();
 
     public Festival() {
     }
@@ -176,6 +180,30 @@ public class Festival {
 
     public void setFestTime(String festTime) {
         this.festTime = festTime;
+    }
+
+    public boolean isAttention() {
+        return attention;
+    }
+
+    public void setAttention(boolean attention) {
+        this.attention = attention;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public boolean isEnded() {
+        return ended;
+    }
+
+    public void setEnded(boolean ended) {
+        this.ended = ended;
     }
 
     @Override
